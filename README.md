@@ -4,7 +4,7 @@ Interactive radial infographs visualising all 21 Catholic Ecumenical Councils fr
 
 ## Features
 
-- **Radial infograph** with era groupings (Early Church, Medieval, Late Medieval Reform, Tridentine / Early Modern, Post-Conciliar)
+- **Radial infograph** with era groupings (Early Church, Medieval, Late Medieval Reform, Tridentine to Vatican II, Post-Conciliar)
 - **Bloom interaction** — click any council node to expand thematic sub-nodes
 - **Thematic threads** — filter by Christology, Mariology, Liturgy, Governance, Ecumenism, Moral, Scripture, Social, Sacraments
 - **Timeline view** — switch between radial and chronological layouts
