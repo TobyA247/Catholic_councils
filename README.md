@@ -10,7 +10,6 @@ Interactive radial infographs visualising all 21 Catholic Ecumenical Councils fr
 - **Timeline view** — switch between radial and chronological layouts
 - **Search** — search across all decrees, topics, and council content
 - **Detail panel** — rich information on each council including key decrees, lasting changes, context, and key figures
-- **Authority context** — distinguishes ecumenical councils, papal / curial documents, and post-conciliar developments
 - **Dark / Light themes** with fleur-de-lis background pattern
 - **Font scaling** — adjustable text size across the full map
 - **Fully self-contained** — single HTML file, no server required
