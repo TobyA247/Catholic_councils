@@ -142,9 +142,13 @@ mark.search-hl { background:#d4af6a55; color:inherit; border-radius:2px; padding
   }
   #header-top {
     display: grid;
-    grid-template-columns: 1fr auto;
+    grid-template-columns: auto minmax(76px, 1fr) auto;
     gap: 8px;
     align-items: start;
+  }
+  #header-top > div:first-child {
+    grid-column: 1 / -1;
+    grid-row: 1;
   }
   #header h1 {
     font-size: 0.74rem;
@@ -157,6 +161,7 @@ mark.search-hl { background:#d4af6a55; color:inherit; border-radius:2px; padding
   }
   #search-box {
     grid-column: 1 / -1;
+    grid-row: 2;
     order: 3;
     width: 100%;
     max-width: none;
@@ -165,20 +170,33 @@ mark.search-hl { background:#d4af6a55; color:inherit; border-radius:2px; padding
     border-radius: 12px;
   }
   #search-count {
-    grid-column: 1 / -1;
-    min-height: 0.9rem;
+    display: none;
   }
   #font-size-ctrl {
-    order: 2;
-    justify-self: end;
+    grid-column: 2;
+    grid-row: 3;
+    order: 4;
+    justify-self: center;
+    align-self: center;
+    min-height: 36px;
+    padding: 0 8px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 12px;
   }
   #view-toggle {
+    display: contents;
     grid-column: 1 / -1;
     order: 4;
-    width: 100%;
-    justify-content: space-between;
-    overflow-x: auto;
-    border-radius: 12px;
+  }
+  .view-btn[data-view="radial"] {
+    grid-column: 1;
+    grid-row: 3;
+    order: 4;
+    align-self: center;
+  }
+  .view-btn[data-view="timeline"] {
+    display: none;
   }
   .view-btn,
   .scheme-btn {
@@ -186,8 +204,12 @@ mark.search-hl { background:#d4af6a55; color:inherit; border-radius:2px; padding
     white-space: nowrap;
   }
   #scheme-toggle {
-    margin-left: 4px;
-    padding-left: 6px;
+    grid-column: 3;
+    grid-row: 3;
+    order: 4;
+    margin-left: 0;
+    padding-left: 8px;
+    align-self: center;
   }
   #themes-row {
     flex-wrap: nowrap;
@@ -240,7 +262,8 @@ mark.search-hl { background:#d4af6a55; color:inherit; border-radius:2px; padding
 
 @media (max-width: 420px) {
   #header h1 { font-size: 0.68rem; }
-  #font-slider { width: 54px !important; }
+  #font-size-ctrl { gap: 3px !important; padding: 0 6px; }
+  #font-slider { width: 48px !important; }
   .view-btn { padding: 4px 9px; }
   .scheme-btn { padding: 3px 7px; }
 }
@@ -1237,6 +1260,14 @@ function mapCenterY() {
   return headerH + Math.max(0, H - headerH) / 2;
 }
 
+function ensureMobileView() {
+  if (isMobileLayout() && currentView !== 'radial') {
+    currentView = 'radial';
+    document.querySelectorAll('.view-btn').forEach(b =>
+      b.classList.toggle('active', b.dataset.view === 'radial'));
+  }
+}
+
 function resetZoom(scale, tx, ty) {
   svg.transition().duration(600)
     .call(zoom.transform, d3.zoomIdentity.translate(tx, ty).scale(scale));
@@ -1924,6 +1955,7 @@ function showDetail(d) {
 // View toggle
 document.querySelectorAll('.view-btn').forEach(btn => {
   btn.addEventListener('click', () => {
+    if (isMobileLayout() && btn.dataset.view === 'timeline') return;
     document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     currentView = btn.dataset.view;
@@ -1941,6 +1973,7 @@ document.querySelectorAll('.theme-btn').forEach(btn => {
     if (activeThemes.has(t)) { activeThemes.delete(t); btn.classList.remove('active'); }
     else { activeThemes.add(t); btn.classList.add('active'); }
     themesRow.classList.toggle('has-active', activeThemes.size > 0);
+    ensureMobileView();
     if (currentView === 'radial') drawRadial();
     else drawTimeline();
     updateOpacities();
@@ -2005,6 +2038,7 @@ function applyScheme(name) {
 
   // Re-render map
   fixedPos = null; // force position recompute (colours affect node rendering)
+  ensureMobileView();
   if (currentView === 'radial') drawRadial();
   else drawTimeline();
 
@@ -2029,6 +2063,7 @@ window.addEventListener('resize', () => {
   resizeTimer = setTimeout(() => {
     clearBloom(false);
     closePanel();
+    ensureMobileView();
     if (currentView === 'radial') drawRadial();
     else drawTimeline();
   }, 160);
