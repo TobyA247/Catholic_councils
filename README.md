@@ -18,6 +18,8 @@ Interactive radial infographs visualising all 21 Catholic Ecumenical Councils fr
 
 Open `catholic_councils_infographs.html` directly in any modern browser. No installation or server needed.
 
+**Deep-context edition (experimental):** `catholic_councils_infograph_codex.html` extends the infograph with an additive "wider context" layer — open a council's theme or a key figure and drill into linked passages of Catholic social doctrine (*Compendium of the Social Doctrine of the Church*, paraphrased and cited) and a cross-linked web of key figures (Wikipedia-sourced, cited per panel). [View live](https://tobya247.github.io/Catholic_councils/catholic_councils_infograph_codex.html)
+
 ## Copyright
 
 © 2026 TobyA247 — [github.com/TobyA247](https://github.com/TobyA247)
